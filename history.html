@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrade Pro - History</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ApexCharts for financial charts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        :root {
+            --primary: #0f1a34;
+            --primary-light: #1e3a8a;
+            --primary-dark: #0a1123;
+            --secondary: #10b981;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a1123;
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Fix for muted text visibility */
+        .text-muted {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Remove blue focus outline on mobile devices */
+        @media (max-width: 768px) {
+
+            .form-control:focus,
+            .custom-select-trigger:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Also ensure no focus outlines on buttons */
+            button:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .channels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .channel-icon:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: #0a1123;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .search-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: white;
+        }
+
+        .header .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .icon.blue {
+            background-color: var(--accent);
+        }
+
+        .stat-card .icon.green {
+            background-color: var(--success);
+        }
+
+        .stat-card .icon.orange {
+            background-color: var(--warning);
+        }
+
+        .stat-card .icon.purple {
+            background-color: #8b5cf6;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--gray-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .price-change {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .price-change.positive {
+            color: var(--success);
+        }
+
+        .price-change.negative {
+            color: var(--danger);
+        }
+
+        /* History Tabs */
+        .history-tabs {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0 20px;
+        }
+
+        .nav-tabs .nav-link {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 15px 20px;
+            border-radius: 0;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: transparent;
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: white;
+            border-color: transparent;
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+
+        /* History Table */
+        .history-table {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .history-table table {
+            width: 100%;
+            color: var(--light);
+        }
+
+        .history-table th {
+            color: var(--gray-light);
+            font-weight: 500;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-table tr {
+            transition: all 0.3s ease;
+        }
+
+        .history-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.completed {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.failed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .status-badge.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .history-type {
+            display: flex;
+            align-items: center;
+        }
+
+        .history-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .history-icon.deposit {
+            background-color: var(--success);
+        }
+
+        .history-icon.withdrawal {
+            background-color: var(--danger);
+        }
+
+        .history-icon.referral {
+            background-color: var(--accent);
+        }
+
+        .history-icon.investment {
+            background-color: var(--warning);
+        }
+
+        /* Filters */
+        .filters-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Dropdown Styles */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select-trigger {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            padding: 0.575rem 0.75rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .custom-select-trigger:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .custom-select-trigger.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .custom-select-trigger i {
+            transition: transform 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .custom-select-trigger.active i {
+            transform: rotate(180deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .custom-options.show {
+            display: block;
+        }
+
+        .custom-option {
+            padding: 0.75rem 1rem;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-option:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-option.selected {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .hidden-select {
+            display: none;
+        }
+
+        /* Form controls for other inputs */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Charts */
+        .chart-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-container h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Activity Timeline */
+        .activity-timeline {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-time {
+            color: var(--gray-light);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+                padding-left: 10px;
+                padding-right: 10px;
+                overflow-x: hidden;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 15px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1040;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .mobile-header .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                padding-top: 8px;
+            }
+
+            .mobile-header .center-items {
+                display: flex;
+                align-items: center;
+                justify-self: center;
+                flex: 1;
+                padding-top: 8px;
+            }
+
+            .mobile-header .toggle-container {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            /* Stats cards - 2 per row on mobile */
+            .stat-card {
+                margin-bottom: 15px;
+            }
+
+            /* Close button for sidebar on mobile */
+            .sidebar-close {
+                display: block;
+                background: var(--danger);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+
+            .history-table {
+                overflow-x: auto;
+            }
+
+            /* Fix for dropdown container overflow on mobile */
+            .filters-container {
+                position: relative;
+                overflow: hidden;
+                padding: 15px;
+            }
+
+            .filters-container .col-md-3 {
+                margin-bottom: 15px;
+                padding-left: 5px;
+                padding-right: 5px;
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+
+            .filters-container .row {
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+
+            .form-control {
+                font-size: 16px;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            /* Custom dropdown mobile styles */
+            .custom-select-wrapper {
+                width: 100%;
+            }
+
+            .custom-options {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90vw;
+                max-width: 300px;
+                max-height: 60vh;
+                z-index: 1060;
+            }
+
+            .custom-option {
+                padding: 1rem 1.25rem;
+                font-size: 1rem;
+            }
+
+            /* Overlay for mobile */
+            .custom-dropdown-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1050;
+                display: none;
+            }
+
+            .custom-dropdown-overlay.show {
+                display: block;
+            }
+
+            /* Container constraints */
+            .container-fluid {
+                padding-left: 10px;
+                padding-right: 10px;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            body {
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            .filters-container .row>div {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            /* Tab styles for mobile */
+            .nav-tabs .nav-link {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-close {
+                display: none;
+            }
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 18px;
+        }
+
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* TradingView-like chart container */
+        .tv-chart-container {
+            height: 300px;
+            background: #0a1123;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Pagination styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-link {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .page-link:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .page-item.disabled .page-link {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--gray);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="logo">
+                    <h3 class="fw-bold"><i class="fas fa-chart-line"></i> FinTrade Pro</h3>
+                    <button class="sidebar-close" id="sidebarClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="trade.html"><i class="fas fa-exchange-alt"></i> Trading</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html"><i class="fas fa-money-bill-wave"></i>
+                                Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="history.html"><i class="fas fa-history"></i> History</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Account</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> User Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Services Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-box"></i> More Services</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sidebar Footer with Channels -->
+                <div class="sidebar-footer">
+                    <div class="nav-section-title">Connect to our channels</div>
+                    <div class="channels">
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-title">
+                    History
+                </div>
+                <div class="center-items">
+                    <div class="user-info d-flex align-items-center move">
+                        <div class="me-3 position-relative">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <button class="toggle-btn" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content ms-sm-auto">
+                <!-- Header -->
+                <div class="header d-flex justify-content-between align-items-center">
+                    <div class="d-none d-md-block">
+                        <h4 class="mb-0">Complete History</h4>
+                        <p class="text-light mb-0">Track all your financial activities in one place</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="search-bar me-3 d-none d-md-block">
+                            <i class="fas fa-search text-light"></i>
+                            <input type="text" placeholder="Search history...">
+                        </div> -->
+                        <div class="user-info d-flex align-items-center">
+                            <div class="me-3 position-relative">
+                                <i class="fas fa-bell text-light"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    2
+                                </span>
+                            </div>
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff"
+                                alt="User">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Stats Cards -->
+                <div class="row">
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp">
+                            <div class="icon green">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <h3>$42,560</h3>
+                            <p>Total Deposits</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +$5,240 This Month
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.1s;">
+                            <div class="icon orange">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <h3>$18,430</h3>
+                            <p>Total Withdrawals</p>
+                            <div class="price-change negative">
+                                <i class="fas fa-arrow-down"></i> -$1,230 This Month
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.2s;">
+                            <div class="icon blue">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h3>$2,340</h3>
+                            <p>Referral Earnings</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> 12 Active Referrals
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.3s;">
+                            <div class="icon purple">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>$124,560</h3>
+                            <p>Total Investments</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +12.5% All Time
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tabs -->
+                <div class="history-tabs slide-in-left animate__animated animate__fadeInLeft">
+                    <ul class="nav nav-tabs" id="historyTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="deposit-tab" data-bs-toggle="tab"
+                                data-bs-target="#deposit" type="button" role="tab" aria-controls="deposit"
+                                aria-selected="true">
+                                <i class="fas fa-arrow-down me-2"></i> Deposit History
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="withdrawal-tab" data-bs-toggle="tab"
+                                data-bs-target="#withdrawal" type="button" role="tab" aria-controls="withdrawal"
+                                aria-selected="false">
+                                <i class="fas fa-arrow-up me-2"></i> Withdrawal History
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="referral-tab" data-bs-toggle="tab" data-bs-target="#referral"
+                                type="button" role="tab" aria-controls="referral" aria-selected="false">
+                                <i class="fas fa-user-friends me-2"></i> Referral History
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="investment-tab" data-bs-toggle="tab"
+                                data-bs-target="#investment" type="button" role="tab" aria-controls="investment"
+                                aria-selected="false">
+                                <i class="fas fa-chart-line me-2"></i> Investment History
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="historyTabsContent">
+                        <!-- Deposit History Tab -->
+                        <div class="tab-pane fade show active" id="deposit" role="tabpanel"
+                            aria-labelledby="deposit-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Deposit History</h4>
+                                <div>
+                                    <button class="btn btn-outline-light me-2">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button class="btn btn-accent">
+                                        <i class="fas fa-sync"></i> Refresh
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="text-light">
+                                            <th>Deposit</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Method</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon deposit">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">USD Deposit</div>
+                                                        <small class="text-muted">ID: DEP748392</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">15 Oct 2023, 14:23</td>
+                                            <td class="text-success">+$5,000.00</td>
+                                            <td class="text-muted">Bank Transfer</td>
+                                            <td><span class="status-badge completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon deposit">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">BTC Deposit</div>
+                                                        <small class="text-muted">ID: DEP748391</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">14 Oct 2023, 09:15</td>
+                                            <td class="text-success">+0.25 BTC</td>
+                                            <td class="text-muted">Crypto Wallet</td>
+                                            <td><span class="status-badge completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon deposit">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">USD Deposit</div>
+                                                        <small class="text-muted">ID: DEP748390</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">10 Oct 2023, 16:12</td>
+                                            <td class="text-success">+$2,500.00</td>
+                                            <td class="text-muted">Credit Card</td>
+                                            <td><span class="status-badge completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon deposit">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">ETH Deposit</div>
+                                                        <small class="text-muted">ID: DEP748389</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">08 Oct 2023, 11:30</td>
+                                            <td class="text-success">+1.42 ETH</td>
+                                            <td class="text-muted">Crypto Wallet</td>
+                                            <td><span class="status-badge pending">Pending</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Withdrawal History Tab -->
+                        <div class="tab-pane fade" id="withdrawal" role="tabpanel" aria-labelledby="withdrawal-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Withdrawal History</h4>
+                                <div>
+                                    <button class="btn btn-outline-light me-2">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button class="btn btn-accent">
+                                        <i class="fas fa-sync"></i> Refresh
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="text-light">
+                                            <th>Withdrawal</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Method</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon withdrawal">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">USD Withdrawal</div>
+                                                        <small class="text-muted">ID: WDL748392</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">13 Oct 2023, 16:12</td>
+                                            <td class="text-danger">-$1,500.00</td>
+                                            <td class="text-muted">Bank Transfer</td>
+                                            <td><span class="status-badge completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon withdrawal">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">BTC Withdrawal</div>
+                                                        <small class="text-muted">ID: WDL748391</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">05 Oct 2023, 09:45</td>
+                                            <td class="text-danger">-0.08 BTC</td>
+                                            <td class="text-muted">Crypto Wallet</td>
+                                            <td><span class="status-badge completed">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon withdrawal">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">USD Withdrawal</div>
+                                                        <small class="text-muted">ID: WDL748390</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">01 Oct 2023, 14:20</td>
+                                            <td class="text-danger">-$3,000.00</td>
+                                            <td class="text-muted">Bank Transfer</td>
+                                            <td><span class="status-badge pending">Processing</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon withdrawal">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">ETH Withdrawal</div>
+                                                        <small class="text-muted">ID: WDL748389</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">28 Sep 2023, 11:30</td>
+                                            <td class="text-danger">-0.5 ETH</td>
+                                            <td class="text-muted">Crypto Wallet</td>
+                                            <td><span class="status-badge failed">Failed</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Referral History Tab -->
+                        <div class="tab-pane fade" id="referral" role="tabpanel" aria-labelledby="referral-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Referral History</h4>
+                                <div>
+                                    <button class="btn btn-outline-light me-2">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button class="btn btn-accent">
+                                        <i class="fas fa-sync"></i> Refresh
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="text-light">
+                                            <th>Referral</th>
+                                            <th>Date</th>
+                                            <th>Bonus</th>
+                                            <th>Status</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon referral">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">John Smith</div>
+                                                        <small class="text-muted">Referral Signup</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">12 Oct 2023, 14:23</td>
+                                            <td class="text-success">+$50.00</td>
+                                            <td><span class="status-badge completed">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-light">
+                                                    <i class="fas fa-eye"></i> View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon referral">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Sarah Johnson</div>
+                                                        <small class="text-muted">Referral Investment</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">10 Oct 2023, 09:15</td>
+                                            <td class="text-success">+$125.00</td>
+                                            <td><span class="status-badge completed">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-light">
+                                                    <i class="fas fa-eye"></i> View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon referral">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Michael Brown</div>
+                                                        <small class="text-muted">Referral Trading</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">05 Oct 2023, 16:12</td>
+                                            <td class="text-success">+$75.50</td>
+                                            <td><span class="status-badge completed">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-light">
+                                                    <i class="fas fa-eye"></i> View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon referral">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Emily Davis</div>
+                                                        <small class="text-muted">Referral Signup</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">01 Oct 2023, 11:30</td>
+                                            <td class="text-success">+$50.00</td>
+                                            <td><span class="status-badge pending">Pending</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-light">
+                                                    <i class="fas fa-eye"></i> View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Investment History Tab -->
+                        <div class="tab-pane fade" id="investment" role="tabpanel" aria-labelledby="investment-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Investment History</h4>
+                                <div>
+                                    <button class="btn btn-outline-light me-2">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button class="btn btn-accent">
+                                        <i class="fas fa-sync"></i> Refresh
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="text-light">
+                                            <th>Investment</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon investment">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Gold Plan</div>
+                                                        <small class="text-muted">12 Months</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">15 Jan 2023</td>
+                                            <td class="text-muted">15 Jan 2024</td>
+                                            <td class="text-success">$25,000</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon investment">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Silver Plan</div>
+                                                        <small class="text-muted">6 Months</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">10 Mar 2023</td>
+                                            <td class="text-muted">10 Sep 2023</td>
+                                            <td class="text-success">$15,000</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon investment">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Platinum Plan</div>
+                                                        <small class="text-muted">12 Months</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">05 May 2023</td>
+                                            <td class="text-muted">05 May 2024</td>
+                                            <td class="text-success">$50,000</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="history-type">
+                                                    <div class="history-icon investment">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold text-light">Bronze Plan</div>
+                                                        <small class="text-muted">6 Months</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">20 Jun 2023</td>
+                                            <td class="text-muted">20 Dec 2023</td>
+                                            <td class="text-success">$5,000</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.add('show');
+        });
+
+        // Close sidebar on mobile
+        document.getElementById('sidebarClose').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.remove('show');
+        });
+
+        // Close sidebar when clicking on a link (for mobile)
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 769) {
+                    document.querySelector('.sidebar').classList.remove('show');
+                }
+            });
+        });
+
+        // Custom dropdown functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const customSelectWrappers = document.querySelectorAll('.custom-select-wrapper');
+
+            customSelectWrappers.forEach(wrapper => {
+                const trigger = wrapper.querySelector('.custom-select-trigger');
+                const options = wrapper.querySelector('.custom-options');
+                const hiddenSelect = wrapper.querySelector('.hidden-select');
+                const optionsList = wrapper.querySelectorAll('.custom-option');
+
+                // Toggle dropdown
+                trigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    closeAllDropdowns();
+
+                    if (window.innerWidth <= 768) {
+                        showMobileDropdown(options, wrapper);
+                    } else {
+                        options.classList.toggle('show');
+                        trigger.classList.toggle('active');
+                    }
+                });
+
+                // Handle option selection
+                optionsList.forEach(option => {
+                    option.addEventListener('click', function () {
+                        const value = this.getAttribute('data-value');
+                        const text = this.textContent;
+
+                        // Update trigger text
+                        trigger.querySelector('span').textContent = text;
+
+                        // Update hidden select
+                        hiddenSelect.value = value;
+
+                        // Update selected state
+                        optionsList.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+
+                        // Close dropdown
+                        if (window.innerWidth <= 768) {
+                            hideMobileDropdown();
+                        } else {
+                            options.classList.remove('show');
+                            trigger.classList.remove('active');
+                        }
+                    });
+                });
+
+                // Set initial selected option
+                const initialValue = hiddenSelect.value;
+                const initialOption = wrapper.querySelector(`.custom-option[data-value="${initialValue}"]`);
+                if (initialOption) {
+                    initialOption.classList.add('selected');
+                    trigger.querySelector('span').textContent = initialOption.textContent;
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function () {
+                closeAllDropdowns();
+                hideMobileDropdown();
+            });
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.custom-options').forEach(options => {
+                    options.classList.remove('show');
+                });
+                document.querySelectorAll('.custom-select-trigger').forEach(trigger => {
+                    trigger.classList.remove('active');
+                });
+            }
+
+            function showMobileDropdown(options, wrapper) {
+                let overlay = document.querySelector('.custom-dropdown-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'custom-dropdown-overlay';
+                    document.body.appendChild(overlay);
+
+                    overlay.addEventListener('click', hideMobileDropdown);
+                }
+
+                overlay.classList.add('show');
+                options.classList.add('show');
+
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideMobileDropdown() {
+                const overlay = document.querySelector('.custom-dropdown-overlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+
+                document.querySelectorAll('.custom-options').forEach(options => {
+                    options.classList.remove('show');
+                });
+
+                document.querySelectorAll('.custom-select-trigger').forEach(trigger => {
+                    trigger.classList.remove('active');
+                });
+
+                document.body.style.overflow = '';
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    hideMobileDropdown();
+                }
+            });
+
+            // Add animation to table rows on load
+            const tableRows = document.querySelectorAll('.history-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.classList.add('animate__animated', 'animate__fadeInUp');
+            });
+        });
+    </script>
+</body>
+
+</html>

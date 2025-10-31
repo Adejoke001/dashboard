@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrade Pro - Transactions</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ApexCharts for financial charts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        :root {
+            --primary: #0f1a34;
+            --primary-light: #1e3a8a;
+            --primary-dark: #0a1123;
+            --secondary: #10b981;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a1123;
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .channels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .channel-icon:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: #0a1123;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .search-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: white;
+        }
+
+        .header .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .icon.blue {
+            background-color: var(--accent);
+        }
+
+        .stat-card .icon.green {
+            background-color: var(--success);
+        }
+
+        .stat-card .icon.orange {
+            background-color: var(--warning);
+        }
+
+        .stat-card .icon.purple {
+            background-color: #8b5cf6;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--gray-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .price-change {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .price-change.positive {
+            color: var(--success);
+        }
+
+        .price-change.negative {
+            color: var(--danger);
+        }
+
+        /* Transaction Table */
+        .transaction-table {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-table table {
+            width: 100%;
+            color: var(--light);
+        }
+
+        .transaction-table th {
+            color: var(--gray-light);
+            font-weight: 500;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transaction-table tr {
+            transition: all 0.3s ease;
+        }
+
+        .transaction-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.completed {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.failed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .transaction-type {
+            display: flex;
+            align-items: center;
+        }
+
+        .transaction-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .transaction-icon.deposit {
+            background-color: var(--success);
+        }
+
+        .transaction-icon.withdrawal {
+            background-color: var(--danger);
+        }
+
+        .transaction-icon.trade {
+            background-color: var(--accent);
+        }
+
+        .transaction-icon.fee {
+            background-color: var(--warning);
+        }
+
+        /* Filters */
+        .filters-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Dropdown Styles */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select-trigger {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            padding: 0.575rem 0.75rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .custom-select-trigger:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .custom-select-trigger.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .custom-select-trigger i {
+            transition: transform 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .custom-select-trigger.active i {
+            transform: rotate(180deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--primary-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .custom-options.show {
+            display: block;
+        }
+
+        .custom-option {
+            padding: 0.75rem 1rem;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-option:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-option.selected {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .hidden-select {
+            display: none;
+        }
+
+        /* Form controls for other inputs (keep these) */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Charts */
+        .chart-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-container h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Trading Controls */
+        .trading-controls {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trading-controls .btn-group {
+            width: 100%;
+        }
+
+        .trading-controls .btn {
+            flex: 1;
+        }
+
+        /* Market Ticker */
+        .market-ticker {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-container {
+            display: flex;
+            animation: ticker-scroll 30s linear infinite;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+            white-space: nowrap;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Order Book */
+        .order-book {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .order-book table {
+            width: 100%;
+            color: var(--light);
+        }
+
+        .order-book th {
+            color: var(--gray-light);
+            font-weight: 500;
+            padding: 10px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+        }
+
+        .order-book td {
+            padding: 8px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        .order-book tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bid-price {
+            color: var(--success);
+        }
+
+        .ask-price {
+            color: var(--danger);
+        }
+
+        /* Trading Pairs */
+        .trading-pairs {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pair-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pair-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .pair-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Trading History */
+        .trading-history {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .history-icon.buy {
+            background-color: var(--success);
+        }
+
+        .history-icon.sell {
+            background-color: var(--danger);
+        }
+
+        .history-content {
+            flex: 1;
+        }
+
+        .history-time {
+            color: var(--gray-light);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+                padding-left: 10px;
+                padding-right: 10px;
+                overflow-x: hidden;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 15px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1040;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .mobile-header .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                padding-top: 8px;
+            }
+
+            .mobile-header .center-items {
+                display: flex;
+                align-items: center;
+                justify-self: center;
+                flex: 1;
+                padding-top: 8px;
+            }
+
+            .mobile-header .toggle-container {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .trading-controls .btn-group {
+                flex-direction: column;
+            }
+
+            .trading-controls .btn {
+                margin-bottom: 10px;
+            }
+
+            /* Stats cards - 2 per row on mobile */
+            .stat-card {
+                margin-bottom: 15px;
+            }
+
+            /* Close button for sidebar on mobile */
+            .sidebar-close {
+                display: block;
+                background: var(--danger);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+
+            .transaction-table {
+                overflow-x: auto;
+            }
+
+            /* Fix for dropdown container overflow on mobile */
+            .filters-container {
+                position: relative;
+                overflow: hidden;
+                padding: 15px;
+            }
+
+            .filters-container .col-md-3 {
+                margin-bottom: 15px;
+                padding-left: 5px;
+                padding-right: 5px;
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+
+            .filters-container .row {
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+
+            .form-control {
+                font-size: 16px;
+                /* Prevents zoom on iOS */
+                max-width: 100%;
+                width: 100%;
+            }
+
+            /* Custom dropdown mobile styles */
+            .custom-select-wrapper {
+                width: 100%;
+            }
+
+            .custom-options {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90vw;
+                max-width: 300px;
+                max-height: 60vh;
+                z-index: 1060;
+            }
+
+            .custom-option {
+                padding: 1rem 1.25rem;
+                font-size: 1rem;
+            }
+
+            /* Overlay for mobile */
+            .custom-dropdown-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1050;
+                display: none;
+            }
+
+            .custom-dropdown-overlay.show {
+                display: block;
+            }
+
+            /* Container constraints */
+            .container-fluid {
+                padding-left: 10px;
+                padding-right: 10px;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* Ensure the dropdown options container doesn't extend beyond screen */
+            body {
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            /* Fix for the filters row */
+            .filters-container .row>div {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-close {
+                display: none;
+            }
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 18px;
+        }
+
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* TradingView-like chart container */
+        .tv-chart-container {
+            height: 400px;
+            background: #0a1123;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Pulse animation for live data */
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Transaction Details Modal */
+        .transaction-modal .modal-content {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .transaction-modal .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .transaction-modal .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .transaction-modal .btn-close {
+            filter: invert(1);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Pagination styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-link {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .page-link:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .page-item.disabled .page-link {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--gray);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="logo">
+                    <h3 class="fw-bold"><i class="fas fa-chart-line"></i> FinTrade Pro</h3>
+                    <button class="sidebar-close" id="sidebarClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="trade.html"><i class="fas fa-exchange-alt"></i> Trading</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="transactions.html"><i class="fas fa-money-bill-wave"></i>
+                                Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="history.html"><i class="fas fa-history"></i> History</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Account</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> User Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Services Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-box"></i> More Services</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sidebar Footer with Channels -->
+                <div class="sidebar-footer">
+                    <div class="nav-section-title">Connect to our channels</div>
+                    <div class="channels">
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-title">
+                    Transactions
+                </div>
+                <div class="center-items">
+                    <div class="user-info d-flex align-items-center move">
+                        <div class="me-3 position-relative">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <button class="toggle-btn" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content ms-sm-auto">
+                <!-- Header -->
+                <div class="header d-flex justify-content-between align-items-center">
+                    <div class="d-none d-md-block">
+                        <h4 class="mb-0">Transaction History</h4>
+                        <p class="text-light mb-0">View and manage all your financial transactions</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="search-bar me-3 d-none d-md-block">
+                            <i class="fas fa-search text-light"></i>
+                            <input type="text" placeholder="Search transactions...">
+                        </div> -->
+                        <div class="user-info d-flex align-items-center">
+                            <div class="me-3 position-relative">
+                                <i class="fas fa-bell text-light"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                </span>
+                            </div>
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff"
+                                alt="User">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Stats Cards -->
+                <div class="row">
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp">
+                            <div class="icon blue">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h3>142</h3>
+                            <p>Total Transactions</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> 12 This Week
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.1s;">
+                            <div class="icon green">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <h3>$24,560</h3>
+                            <p>Total Deposits</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +$2,340 This Month
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.2s;">
+                            <div class="icon orange">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <h3>$18,430</h3>
+                            <p>Total Withdrawals</p>
+                            <div class="price-change negative">
+                                <i class="fas fa-arrow-down"></i> -$1,230 This Month
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.3s;">
+                            <div class="icon purple">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3>$6,130</h3>
+                            <p>Net Transactions</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +$1,110 This Month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Filters -->
+                <!-- Transaction Filters -->
+                <div class="filters-container slide-in-left animate__animated animate__fadeInLeft">
+                    <div class="row">
+                        <!-- Transaction Type - Custom Dropdown -->
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Transaction Type</label>
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select-trigger">
+                                    <span>All Types</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="">All Types</div>
+                                    <div class="custom-option" data-value="deposit">Deposit</div>
+                                    <div class="custom-option" data-value="withdrawal">Withdrawal</div>
+                                    <div class="custom-option" data-value="trade">Trade</div>
+                                    <div class="custom-option" data-value="fee">Fee</div>
+                                </div>
+                                <select class="hidden-select" name="transaction-type">
+                                    <option value="">All Types</option>
+                                    <option value="deposit">Deposit</option>
+                                    <option value="withdrawal">Withdrawal</option>
+                                    <option value="trade">Trade</option>
+                                    <option value="fee">Fee</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Status - Custom Dropdown -->
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Status</label>
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select-trigger">
+                                    <span>All Status</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="">All Status</div>
+                                    <div class="custom-option" data-value="completed">Completed</div>
+                                    <div class="custom-option" data-value="pending">Pending</div>
+                                    <div class="custom-option" data-value="failed">Failed</div>
+                                </div>
+                                <select class="hidden-select" name="status">
+                                    <option value="">All Status</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Date From (Keep as regular input) -->
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Date From</label>
+                            <input type="date" class="form-control">
+                        </div>
+
+                        <!-- Date To (Keep as regular input) -->
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Date To</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Search</label>
+                            <input type="text" class="form-control" placeholder="Search by ID, description...">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Amount Min</label>
+                            <input type="number" class="form-control" placeholder="Min amount">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Amount Max</label>
+                            <input type="number" class="form-control" placeholder="Max amount">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-outline-light me-2">Reset Filters</button>
+                        <button class="btn btn-accent">Apply Filters</button>
+                    </div>
+                </div>
+
+                <!-- Transaction Charts -->
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="chart-container slide-in-left animate__animated animate__fadeInLeft">
+                            <h4 class="mb-3">Transaction Types</h4>
+                            <div id="typeChart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-container slide-in-right animate__animated animate__fadeInRight">
+                            <h4 class="mb-3">Monthly Transaction Volume</h4>
+                            <div id="volumeChart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Table -->
+                <div class="transaction-table slide-in-right animate__animated animate__fadeInRight">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Recent Transactions</h4>
+                        <div>
+                            <button class="btn btn-outline-light me-2">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button class="btn btn-accent">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon deposit">
+                                                <i class="fas fa-arrow-down"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">BTC Deposit</div>
+                                                <small class="text-muted">ID: TXN748392</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>15 Oct 2023, 14:23</td>
+                                    <td class="text-success">+0.25 BTC</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="1">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon trade">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">ETH/BTC Trade</div>
+                                                <small class="text-muted">ID: TXN748391</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>14 Oct 2023, 09:45</td>
+                                    <td class="text-success">+1.42 ETH</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="2">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon withdrawal">
+                                                <i class="fas fa-arrow-up"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">USD Withdrawal</div>
+                                                <small class="text-muted">ID: TXN748390</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>13 Oct 2023, 16:12</td>
+                                    <td class="text-danger">-$1,500.00</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="3">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon fee">
+                                                <i class="fas fa-file-invoice-dollar"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">Trading Fee</div>
+                                                <small class="text-muted">ID: TXN748389</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>12 Oct 2023, 11:30</td>
+                                    <td class="text-danger">-$12.50</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="4">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon deposit">
+                                                <i class="fas fa-arrow-down"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">USD Deposit</div>
+                                                <small class="text-muted">ID: TXN748388</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>10 Oct 2023, 08:15</td>
+                                    <td class="text-success">+$5,000.00</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="5">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="transaction-type">
+                                            <div class="transaction-icon trade">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">BTC/ETH Trade</div>
+                                                <small class="text-muted">ID: TXN748387</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>08 Oct 2023, 19:40</td>
+                                    <td class="text-danger">-0.08 BTC</td>
+                                    <td><span class="status-badge failed">Failed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-light view-details" data-id="6">
+                                            <i class="fas fa-eye"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <nav aria-label="Transaction pagination">
+                            <ul class="pagination" id="transactionPagination">
+                                <li class="page-item disabled" id="prevPage">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <!-- Pages will be dynamically inserted here -->
+                                <li class="page-item" id="nextPage">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Details Modal -->
+    <div class="modal fade transaction-modal" id="transactionModal" tabindex="-1"
+        aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <span>Transaction ID:</span>
+                                <span class="fw-bold" id="detail-id">TXN748392</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Type:</span>
+                                <span class="fw-bold" id="detail-type">Deposit</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Date & Time:</span>
+                                <span id="detail-date">15 Oct 2023, 14:23</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <span>Status:</span>
+                                <span id="detail-status"><span class="status-badge completed">Completed</span></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Amount:</span>
+                                <span class="fw-bold text-success" id="detail-amount">+0.25 BTC</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Network Fee:</span>
+                                <span id="detail-fee">0.0005 BTC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6>Description</h6>
+                        <p id="detail-description">Bitcoin deposit from external wallet</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6>Transaction Hash</h6>
+                        <p id="detail-hash" class="font-monospace">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>From Address</h6>
+                            <p id="detail-from" class="font-monospace">3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>To Address</h6>
+                            <p id="detail-to" class="font-monospace">1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-accent">
+                        <i class="fas fa-print"></i> Print Receipt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.add('show');
+        });
+
+        // Close sidebar on mobile
+        document.getElementById('sidebarClose').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.remove('show');
+        });
+
+        // Close sidebar when clicking on a link (for mobile)
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 769) {
+                    document.querySelector('.sidebar').classList.remove('show');
+                }
+            });
+        });
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function () {
+            // Transaction Type Chart
+            var typeOptions = {
+                series: [44, 22, 18, 16],
+                chart: {
+                    type: 'donut',
+                    height: 300
+                },
+                labels: ['Deposits', 'Withdrawals', 'Trades', 'Fees'],
+                colors: ['#10b981', '#ef4444', '#3b82f6', '#f59e0b'],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }],
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        colors: '#f8fafc'
+                    }
+                }
+            };
+
+            var typeChart = new ApexCharts(document.querySelector("#typeChart"), typeOptions);
+            typeChart.render();
+
+            // Transaction Volume Chart
+            var volumeOptions = {
+                series: [{
+                    name: 'Volume',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000, 28000, 35000, 30000, 28000, 32000, 40000]
+                }],
+                chart: {
+                    height: 300,
+                    type: 'area',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false
+                    },
+                    foreColor: '#64748b'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                    colors: ['#3b82f6']
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    },
+                    colors: ['#3b82f6']
+                },
+                colors: ['#3b82f6'],
+                grid: {
+                    borderColor: 'rgba(255, 255, 255, 0.05)',
+                    strokeDashArray: 3,
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return '$' + (value / 1000).toFixed(0) + 'K';
+                        }
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            };
+
+            var volumeChart = new ApexCharts(document.querySelector("#volumeChart"), volumeOptions);
+            volumeChart.render();
+
+            // Transaction details modal
+            const transactionModal = new bootstrap.Modal(document.getElementById('transactionModal'));
+            const viewButtons = document.querySelectorAll('.view-details');
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const transactionId = this.getAttribute('data-id');
+                    loadTransactionDetails(transactionId);
+                    transactionModal.show();
+                });
+            });
+
+            // Function to load transaction details (mock data)
+            function loadTransactionDetails(id) {
+                const transactions = {
+                    '1': {
+                        id: 'TXN748392',
+                        type: 'Deposit',
+                        date: '15 Oct 2023, 14:23',
+                        status: 'completed',
+                        amount: '+0.25 BTC',
+                        fee: '0.0005 BTC',
+                        description: 'Bitcoin deposit from external wallet',
+                        hash: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                        from: '3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy',
+                        to: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2'
+                    },
+                    '2': {
+                        id: 'TXN748391',
+                        type: 'Trade',
+                        date: '14 Oct 2023, 09:45',
+                        status: 'completed',
+                        amount: '+1.42 ETH',
+                        fee: '0.0012 ETH',
+                        description: 'ETH/BTC trading pair exchange',
+                        hash: '0x742d35Cc6634C0532925a3b8Df6A2e4f2a1b3e4c',
+                        from: 'BTC Wallet',
+                        to: 'ETH Wallet'
+                    },
+                    '3': {
+                        id: 'TXN748390',
+                        type: 'Withdrawal',
+                        date: '13 Oct 2023, 16:12',
+                        status: 'pending',
+                        amount: '-$1,500.00',
+                        fee: '$15.00',
+                        description: 'USD withdrawal to bank account',
+                        hash: 'WDL748390',
+                        from: 'FinTrade Wallet',
+                        to: 'Bank Account ****1234'
+                    }
+                };
+
+                const transaction = transactions[id];
+                if (transaction) {
+                    document.getElementById('detail-id').textContent = transaction.id;
+                    document.getElementById('detail-type').textContent = transaction.type;
+                    document.getElementById('detail-date').textContent = transaction.date;
+
+                    let statusBadge = '';
+                    if (transaction.status === 'completed') {
+                        statusBadge = '<span class="status-badge completed">Completed</span>';
+                    } else if (transaction.status === 'pending') {
+                        statusBadge = '<span class="status-badge pending">Pending</span>';
+                    } else {
+                        statusBadge = '<span class="status-badge failed">Failed</span>';
+                    }
+                    document.getElementById('detail-status').innerHTML = statusBadge;
+
+                    document.getElementById('detail-amount').textContent = transaction.amount;
+                    document.getElementById('detail-amount').className = transaction.amount.startsWith('+') ? 'fw-bold text-success' : 'fw-bold text-danger';
+
+                    document.getElementById('detail-fee').textContent = transaction.fee;
+                    document.getElementById('detail-description').textContent = transaction.description;
+                    document.getElementById('detail-hash').textContent = transaction.hash;
+                    document.getElementById('detail-from').textContent = transaction.from;
+                    document.getElementById('detail-to').textContent = transaction.to;
+                }
+            }
+
+            // Pagination functionality
+            const transactionsPerPage = 5;
+            const transactionRows = document.querySelectorAll('.transaction-table tbody tr');
+            const totalPages = Math.ceil(transactionRows.length / transactionsPerPage);
+            let currentPage = 1;
+
+            // Initialize pagination
+            setupPagination();
+            showPage(currentPage);
+
+            function setupPagination() {
+                const pagination = document.getElementById('transactionPagination');
+                const prevPage = document.getElementById('prevPage');
+                const nextPage = document.getElementById('nextPage');
+
+                // Clear existing page numbers (except prev/next)
+                const existingPages = pagination.querySelectorAll('.page-number');
+                existingPages.forEach(page => page.remove());
+
+                // Add page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = `page-item page-number ${i === 1 ? 'active' : ''}`;
+                    pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+
+                    // Insert before next button
+                    pagination.insertBefore(pageItem, nextPage);
+
+                    // Add click event
+                    pageItem.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        showPage(currentPage);
+                        updatePaginationUI();
+                    });
+                }
+
+                // Previous page event
+                prevPage.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showPage(currentPage);
+                        updatePaginationUI();
+                    }
+                });
+
+                // Next page event
+                nextPage.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        showPage(currentPage);
+                        updatePaginationUI();
+                    }
+                });
+
+                // Initial UI update
+                updatePaginationUI();
+            }
+
+            function showPage(page) {
+                const startIndex = (page - 1) * transactionsPerPage;
+                const endIndex = startIndex + transactionsPerPage;
+
+                transactionRows.forEach((row, index) => {
+                    if (index >= startIndex && index < endIndex) {
+                        row.style.display = '';
+                        // Add animation
+                        row.classList.add('animate__animated', 'animate__fadeIn');
+                    } else {
+                        row.style.display = 'none';
+                        row.classList.remove('animate__animated', 'animate__fadeIn');
+                    }
+                });
+            }
+
+            function updatePaginationUI() {
+                const pageNumbers = document.querySelectorAll('.page-number');
+                const prevPage = document.getElementById('prevPage');
+                const nextPage = document.getElementById('nextPage');
+
+                // Update active page
+                pageNumbers.forEach((page, index) => {
+                    if (index + 1 === currentPage) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+
+                // Update prev/next button states
+                if (currentPage === 1) {
+                    prevPage.classList.add('disabled');
+                } else {
+                    prevPage.classList.remove('disabled');
+                }
+
+                if (currentPage === totalPages) {
+                    nextPage.classList.add('disabled');
+                } else {
+                    nextPage.classList.remove('disabled');
+                }
+            }
+
+            // Add animation to table rows on load
+            const tableRows = document.querySelectorAll('.transaction-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.classList.add('animate__animated', 'animate__fadeInUp');
+            });
+        });
+
+        // Custom dropdown functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize all custom dropdowns
+            const customSelectWrappers = document.querySelectorAll('.custom-select-wrapper');
+
+            customSelectWrappers.forEach(wrapper => {
+                const trigger = wrapper.querySelector('.custom-select-trigger');
+                const options = wrapper.querySelector('.custom-options');
+                const hiddenSelect = wrapper.querySelector('.hidden-select');
+                const optionsList = wrapper.querySelectorAll('.custom-option');
+
+                // Toggle dropdown
+                trigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    closeAllDropdowns();
+
+                    if (window.innerWidth <= 768) {
+                        // Mobile behavior - show as modal
+                        showMobileDropdown(options, wrapper);
+                    } else {
+                        // Desktop behavior - toggle normally
+                        options.classList.toggle('show');
+                        trigger.classList.toggle('active');
+                    }
+                });
+
+                // Handle option selection
+                optionsList.forEach(option => {
+                    option.addEventListener('click', function () {
+                        const value = this.getAttribute('data-value');
+                        const text = this.textContent;
+
+                        // Update trigger text
+                        trigger.querySelector('span').textContent = text;
+
+                        // Update hidden select
+                        hiddenSelect.value = value;
+
+                        // Update selected state
+                        optionsList.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+
+                        // Close dropdown
+                        if (window.innerWidth <= 768) {
+                            hideMobileDropdown();
+                        } else {
+                            options.classList.remove('show');
+                            trigger.classList.remove('active');
+                        }
+                    });
+                });
+
+                // Set initial selected option
+                const initialValue = hiddenSelect.value;
+                const initialOption = wrapper.querySelector(`.custom-option[data-value="${initialValue}"]`);
+                if (initialOption) {
+                    initialOption.classList.add('selected');
+                    trigger.querySelector('span').textContent = initialOption.textContent;
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function () {
+                closeAllDropdowns();
+                hideMobileDropdown();
+            });
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.custom-options').forEach(options => {
+                    options.classList.remove('show');
+                });
+                document.querySelectorAll('.custom-select-trigger').forEach(trigger => {
+                    trigger.classList.remove('active');
+                });
+            }
+
+            function showMobileDropdown(options, wrapper) {
+                // Create overlay if it doesn't exist
+                let overlay = document.querySelector('.custom-dropdown-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'custom-dropdown-overlay';
+                    document.body.appendChild(overlay);
+
+                    overlay.addEventListener('click', hideMobileDropdown);
+                }
+
+                overlay.classList.add('show');
+                options.classList.add('show');
+
+                // Prevent body scroll
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideMobileDropdown() {
+                const overlay = document.querySelector('.custom-dropdown-overlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+
+                document.querySelectorAll('.custom-options').forEach(options => {
+                    options.classList.remove('show');
+                });
+
+                document.querySelectorAll('.custom-select-trigger').forEach(trigger => {
+                    trigger.classList.remove('active');
+                });
+
+                // Restore body scroll
+                document.body.style.overflow = '';
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    hideMobileDropdown();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

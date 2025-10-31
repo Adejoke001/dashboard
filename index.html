@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrade Pro - Investment Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ApexCharts for financial charts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        :root {
+            --primary: #0f1a34;
+            --primary-light: #1e3a8a;
+            --primary-dark: #0a1123;
+            --secondary: #10b981;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a1123;
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .channels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .channel-icon:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: #0a1123;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .search-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: white;
+        }
+
+        .header .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .icon.blue {
+            background-color: var(--accent);
+        }
+
+        .stat-card .icon.green {
+            background-color: var(--success);
+        }
+
+        .stat-card .icon.orange {
+            background-color: var(--warning);
+        }
+
+        .stat-card .icon.purple {
+            background-color: #8b5cf6;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--gray-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .price-change {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .price-change.positive {
+            color: var(--success);
+        }
+
+        .price-change.negative {
+            color: var(--danger);
+        }
+
+        /* Charts */
+        .chart-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-container h4 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Investment Table */
+        .investment-table {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .investment-table table {
+            width: 100%;
+            color: var(--light);
+        }
+
+        .investment-table th {
+            color: var(--gray-light);
+            font-weight: 500;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .investment-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .investment-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.active {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.completed {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .status-badge.cancelled {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        /* Referral Section */
+        .referral-container {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .referral-code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .referral-code span {
+            font-family: monospace;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1040;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .mobile-header .header-left {
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-header .header-center {
+                display: flex;
+                align-items: center;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                padding-top: 5px;
+            }
+
+            .mobile-header .header-right {
+                display: flex;
+                align-items: center;
+            }
+
+            /* Stats cards - 2 per row on mobile */
+            .stat-card {
+                margin-bottom: 15px;
+            }
+
+            /* Close button for sidebar on mobile */
+            .sidebar-close {
+                display: block;
+                background: var(--danger);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-close {
+                display: none;
+            }
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 18px;
+        }
+
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* TradingView-like chart container */
+        .tv-chart-container {
+            height: 300px;
+            background: #0a1123;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="logo">
+                    <h3 class="fw-bold"><i class="fas fa-chart-line"></i> FinTrade Pro</h3>
+                    <button class="sidebar-close" id="sidebarClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="trade.html"><i class="fas fa-exchange-alt"></i> Trading</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transaction.html"><i class="fas fa-money-bill-wave"></i>
+                                Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="history.html"><i class="fas fa-history"></i> History</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Account</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> User Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Services Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-box"></i> More Services</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sidebar Footer with Channels -->
+                <div class="sidebar-footer">
+                    <div class="nav-section-title">Connect to our channels</div>
+                    <div class="channels">
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-left">
+                    <h4 class="mb-0">Trading Platform</h4>
+                </div>
+                <div class="header-center">
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="me-3 position-relative">
+                            <i class="fas fa-bell text-light"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="toggle-btn" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content ms-sm-auto">
+                <!-- Header -->
+                <div class="header d-flex justify-content-between align-items-center">
+                    <div class="d-none d-md-block">
+                        <h4 class="mb-0">Investment Dashboard</h4>
+                        <p class="text-light mb-0">Track your investments and referral earnings</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="search-bar me-3 d-none d-md-block">
+                            <i class="fas fa-search text-light"></i>
+                            <input type="text" placeholder="Search investments...">
+                        </div> -->
+                        <div class="user-info d-flex align-items-center">
+                            <div class="me-3 position-relative">
+                                <i class="fas fa-bell text-light"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                </span>
+                            </div>
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff"
+                                alt="User">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Stats Cards - Now 2 per row on small screens -->
+                <div class="row">
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp">
+                            <div class="icon blue">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>$124,560</h3>
+                            <p>Total Investment</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +12.5% All Time
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.1s;">
+                            <div class="icon green">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h3>$98,430</h3>
+                            <p>Current Investment</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> +2.3% This Month
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.2s;">
+                            <div class="icon orange">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h3>$2,340</h3>
+                            <p>Referral Earnings</p>
+                            <div class="price-change positive">
+                                <i class="fas fa-arrow-up"></i> 12 Active Referrals
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
+                            style="animation-delay: 0.3s;">
+                            <div class="icon purple">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h3>$15,230</h3>
+                            <p>Cancelled Investments</p>
+                            <div class="price-change negative">
+                                <i class="fas fa-arrow-down"></i> 5 Cancelled Plans
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Overview and Referral Section -->
+                <div class="row mt-4">
+                    <div class="col-lg-8">
+                        <div class="chart-container">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Investment Performance</h4>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-light active">1M</button>
+                                    <button class="btn btn-outline-light">3M</button>
+                                    <button class="btn btn-outline-light">1Y</button>
+                                    <button class="btn btn-outline-light">All</button>
+                                </div>
+                            </div>
+                            <div id="investmentChart" class="tv-chart-container"></div>
+                        </div>
+
+                        <!-- Current Investments Table -->
+                        <div class="investment-table mt-4">
+                            <h4 class="mb-3">Current Investments</h4>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Plan</th>
+                                            <th>Amount</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Gold Plan</td>
+                                            <td>$25,000</td>
+                                            <td>15 Jan 2023</td>
+                                            <td>15 Jan 2024</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Silver Plan</td>
+                                            <td>$15,000</td>
+                                            <td>10 Mar 2023</td>
+                                            <td>10 Sep 2023</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Platinum Plan</td>
+                                            <td>$50,000</td>
+                                            <td>05 May 2023</td>
+                                            <td>05 May 2024</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bronze Plan</td>
+                                            <td>$5,000</td>
+                                            <td>20 Jun 2023</td>
+                                            <td>20 Dec 2023</td>
+                                            <td><span class="status-badge active">Active</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <!-- Referral Section -->
+                        <div class="referral-container">
+                            <h4 class="mb-3">Referral Program</h4>
+                            <p>Invite friends and earn 5% of their investment profits.</p>
+
+                            <div class="referral-stats mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Total Referrals</span>
+                                    <span class="fw-bold">24</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Active Referrals</span>
+                                    <span class="fw-bold">12</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Total Earnings</span>
+                                    <span class="fw-bold text-success">$2,340</span>
+                                </div>
+                            </div>
+
+                            <div class="referral-code">
+                                <span>FINTRADE-7X9B2C</span>
+                                <button class="btn btn-sm btn-outline-light" id="copyReferral">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+
+                            <div class="mt-3">
+                                <button class="btn btn-accent w-100">
+                                    <i class="fas fa-share-alt"></i> Share Referral Link
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cancelled Investments History -->
+                        <div class="investment-table mt-4">
+                            <h4 class="mb-3">Cancelled Investments</h4>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Plan</th>
+                                            <th>Amount</th>
+                                            <th>Cancelled Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Silver Plan</td>
+                                            <td>$10,000</td>
+                                            <td>12 Feb 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bronze Plan</td>
+                                            <td>$3,000</td>
+                                            <td>05 Apr 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gold Plan</td>
+                                            <td>$1,500</td>
+                                            <td>18 May 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Starter Plan</td>
+                                            <td>$730</td>
+                                            <td>30 Jun 2023</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.add('show');
+        });
+
+        // Close sidebar on mobile
+        document.getElementById('sidebarClose').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.remove('show');
+        });
+
+        // Close sidebar when clicking on a link (for mobile)
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 769) {
+                    document.querySelector('.sidebar').classList.remove('show');
+                }
+            });
+        });
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function () {
+            // Investment Performance Chart
+            var investmentOptions = {
+                series: [{
+                    name: "Investment Value",
+                    data: [80000, 85000, 92000, 98000, 105000, 112000, 120000, 118000, 124000, 130000, 125000, 124560]
+                }],
+                chart: {
+                    height: 300,
+                    type: 'area',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false
+                    },
+                    foreColor: '#64748b'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                    colors: ['#3b82f6']
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    },
+                    colors: ['#3b82f6']
+                },
+                colors: ['#3b82f6'],
+                grid: {
+                    borderColor: 'rgba(255, 255, 255, 0.05)',
+                    strokeDashArray: 3,
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return '$' + (value / 1000).toFixed(0) + 'K';
+                        }
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            };
+
+            var investmentChart = new ApexCharts(document.querySelector("#investmentChart"), investmentOptions);
+            investmentChart.render();
+
+            // Copy referral code functionality
+            document.getElementById('copyReferral').addEventListener('click', function () {
+                const referralCode = document.querySelector('.referral-code span').textContent;
+                navigator.clipboard.writeText(referralCode).then(function () {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                }.bind(this));
+            });
+        });
+    </script>
+</body>
+
+</html>

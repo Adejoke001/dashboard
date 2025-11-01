@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrade Pro - User Account</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f1a34;
+            --primary-light: #1e3a8a;
+            --primary-dark: #0a1123;
+            --secondary: #10b981;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a1123;
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Fix for muted text visibility */
+        .text-muted {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar .logo {
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-section {
+            margin-bottom: 10px;
+        }
+        
+        .nav-section-title {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .channels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .channel-icon:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: #0a1123;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .header .search-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: white;
+        }
+        
+        .header .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card .icon.blue {
+            background-color: var(--accent);
+        }
+        
+        .stat-card .icon.green {
+            background-color: var(--success);
+        }
+        
+        .stat-card .icon.orange {
+            background-color: var(--warning);
+        }
+        
+        .stat-card .icon.purple {
+            background-color: #8b5cf6;
+        }
+        
+        .stat-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            color: var(--gray-light);
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .price-change {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .price-change.positive {
+            color: var(--success);
+        }
+        
+        .price-change.negative {
+            color: var(--danger);
+        }
+        
+        /* User Account Cards - UPDATED FOR FULL WIDTH ON MOBILE */
+        .account-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+        }
+        
+        .account-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .account-card .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .account-card .card-icon.profile {
+            background-color: var(--accent);
+        }
+        
+        .account-card .card-icon.password {
+            background-color: var(--warning);
+        }
+        
+        .account-card .card-icon.kyc {
+            background-color: var(--success);
+        }
+        
+        .account-card .card-icon.logout {
+            background-color: var(--danger);
+        }
+        
+        .account-card h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .account-card p {
+            color: var(--gray-light);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        /* Modal Styles */
+        .modal-content {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+        }
+        
+        .btn-accent:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+        
+        /* Form controls */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-label {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* KYC Verification Status */
+        .kyc-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .kyc-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .kyc-badge.verified {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .kyc-badge.pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .kyc-badge.unverified {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--accent);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        
+        .file-upload i {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .file-upload p {
+            margin: 0;
+            color: var(--gray-light);
+        }
+        
+        /* Progress Bar */
+        .progress {
+            background-color: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            background-color: var(--accent);
+            border-radius: 4px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+            
+            .sidebar.show {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+                padding-left: 10px;
+                padding-right: 10px;
+                overflow-x: hidden;
+            }
+            
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 15px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1040;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            .mobile-header .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                padding-top: 8px;
+            }
+            
+            .mobile-header .center-items {
+                display: flex;
+                align-items: center;
+                justify-self: center;
+                flex: 1;
+                padding-top: 8px;
+            }
+            
+            .mobile-header .toggle-container {
+                display: flex;
+                justify-content: flex-end;
+            }
+            
+            /* Account cards - FULL WIDTH on mobile */
+            .account-card {
+                margin-bottom: 15px;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            /* Make the account card row take full width and center */
+            .account-cards-container .row {
+                width: 100%;
+                margin: 0;
+                justify-content: center;
+            }
+            
+            .account-cards-container .col-12 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            
+            /* Close button for sidebar on mobile */
+            .sidebar-close {
+                display: block;
+                background: var(--danger);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+             .card-icon{
+                justify-self: center;
+            }
+            .pill{
+                text-align: center;
+                justify-self: center;
+            }
+            .pill-t{
+                justify-self: center;
+            }
+            
+            
+           
+            
+            /* Modal adjustments for mobile */
+            .modal-dialog {
+                margin: 20px 10px;
+            }
+            
+            /* Remove blue focus outline on mobile devices */
+            .form-control:focus,
+            .custom-select-trigger:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            
+            /* Also ensure no focus outlines on buttons */
+            button:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-header {
+                display: none;
+            }
+            
+            .sidebar-close {
+                display: none;
+            }
+           
+        }
+        
+        /* Toggle Button */
+        .toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 18px;
+        }
+        
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="logo">
+                    <h3 class="fw-bold"><i class="fas fa-chart-line"></i> FinTrade Pro</h3>
+                    <button class="sidebar-close" id="sidebarClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="trade.html"><i class="fas fa-exchange-alt"></i> Trading</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html"><i class="fas fa-money-bill-wave"></i> Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="history.html"><i class="fas fa-history"></i> History</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Account</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="user_account.html"><i class="fas fa-user-circle"></i> User Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Services Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="more_services.html"><i class="fas fa-box"></i> More Services</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Sidebar Footer with Channels -->
+                <div class="sidebar-footer">
+                    <div class="nav-section-title">Connect to our channels</div>
+                    <div class="channels">
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-title">
+                    User Account
+                </div>
+                <div class="center-items">
+                    <div class="user-info d-flex align-items-center move">
+                        <div class="me-3 position-relative">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <button class="toggle-btn" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content ms-sm-auto">
+                <!-- Header -->
+                <div class="header d-flex justify-content-between align-items-center">
+                    <div class="d-none d-md-block">
+                        <h4 class="mb-0">User Account</h4>
+                        <p class="text-light mb-0">Manage your profile, security, and verification</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="search-bar me-3 d-none d-md-block">
+                            <i class="fas fa-search text-light"></i>
+                            <input type="text" placeholder="Search...">
+                        </div> -->
+                        <div class="user-info d-flex align-items-center">
+                            <div class="me-3 position-relative">
+                                <i class="fas fa-bell text-light"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    2
+                                </span>
+                            </div>
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff" alt="User">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Account Cards - UPDATED FOR FULL WIDTH ON MOBILE -->
+                <div class="account-cards-container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="account-card fade-in animate__animated animate__fadeInUp" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                <div class="card-icon profile">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4 class="pill">Profile</h4>
+                                <p class="pill">View and edit your personal information and account details</p>
+                                <div class="d-flex align-items-center pill-t">
+                                    <span class="text-accent">Manage Profile</span>
+                                    <i class="fas fa-chevron-right ms-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="account-card fade-in animate__animated animate__fadeInUp" style="animation-delay: 0.1s;" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                <div class="card-icon password">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <h4 class="pill">Change Password</h4>
+                                <p class="pill">Update your password to keep your account secure</p>
+                                <div class="d-flex align-items-center pill-t">
+                                    <span class="text-accent">Update Password</span>
+                                    <i class="fas fa-chevron-right ms-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="account-card fade-in animate__animated animate__fadeInUp" style="animation-delay: 0.2s;" data-bs-toggle="modal" data-bs-target="#kycModal">
+                                <div class="card-icon kyc">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <h4 class="pill">KYC Verification</h4>
+                                <p class="pill">Verify your identity to unlock all platform features</p>
+                                <div class="d-flex align-items-center pill-t">
+                                    <span class="badge kyc-badge unverified">Unverified</span>
+                                    <i class="fas fa-chevron-right ms-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="account-card fade-in animate__animated animate__fadeInUp" style="animation-delay: 0.3s;" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <div class="card-icon logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <h4 class="pill">Logout</h4>
+                                <p class="pill">Securely sign out of your account</p>
+                                <div class="d-flex align-items-center pill-t">
+                                    <span class="text-accent">Sign Out</span>
+                                    <i class="fas fa-chevron-right ms-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Stats -->
+                <div class="row mt-4">
+                    <div class="col-md-8">
+                        <div class="stat-card slide-in-left animate__animated animate__fadeInLeft">
+                            <h4>Account Security</h4>
+                            <p class="mb-3">Your account security status</p>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Password Strength</span>
+                                    <span class="text-success">Strong</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Two-Factor Authentication</span>
+                                    <span class="text-warning">Not Enabled</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>KYC Verification</span>
+                                    <span class="text-danger">Not Verified</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 10%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="stat-card slide-in-right animate__animated animate__fadeInRight">
+                            <h4>Recent Activity</h4>
+                            <p>Your recent account actions</p>
+                            
+                            <div class="activity-list">
+                                <div class="d-flex mb-3">
+                                    <div class="me-3">
+                                        <i class="fas fa-shield-alt text-success"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Password Changed</div>
+                                        <small class="text-muted">2 days ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex mb-3">
+                                    <div class="me-3">
+                                        <i class="fas fa-user-edit text-info"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Profile Updated</div>
+                                        <small class="text-muted">1 week ago</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i class="fas fa-id-card text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">KYC Submitted</div>
+                                        <small class="text-muted">2 weeks ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">Profile Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center">
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff&size=150" alt="User" class="rounded-circle mb-3" width="120">
+                            <button class="btn btn-outline-light btn-sm">Change Photo</button>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" value="John">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" value="Trader">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="john.trader@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mb-3">Additional Information</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country" value="United States">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" value="New York">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" value="123 Financial District">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-accent" id="saveProfile">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword">
+                        <div class="form-text text-muted">Password must be at least 8 characters long and include uppercase, lowercase, and numbers.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPassword">
+                    </div>
+                    
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Password Requirements:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Minimum 8 characters</li>
+                            <li>At least one uppercase letter</li>
+                            <li>At least one lowercase letter</li>
+                            <li>At least one number</li>
+                            <li>At least one special character</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-accent" id="updatePassword">Update Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KYC Verification Modal -->
+    <div class="modal fade" id="kycModal" tabindex="-1" aria-labelledby="kycModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="kycModalLabel">KYC Verification</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="kyc-status">
+                        <div class="me-3">
+                            <i class="fas fa-id-card fa-2x text-warning"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Identity Verification Required</h5>
+                            <p class="text-muted mb-0">Complete KYC verification to unlock all platform features</p>
+                        </div>
+                        <div class="ms-auto">
+                            <span class="kyc-badge unverified">Unverified</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-4">
+                            <h6 class="mb-3">Step 1: Identity Document</h6>
+                            <div class="file-upload" id="idUpload">
+                                <i class="fas fa-id-card"></i>
+                                <p>Upload your government-issued ID</p>
+                                <small class="text-muted">Passport, Driver's License, or National ID</small>
+                            </div>
+                            <div id="idPreview" class="d-none text-center">
+                                <img src="" alt="ID Preview" class="img-thumbnail mb-2" style="max-height: 150px;">
+                                <p class="text-success mb-0"><i class="fas fa-check-circle me-1"></i> ID uploaded successfully</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <h6 class="mb-3">Step 2: Proof of Address</h6>
+                            <div class="file-upload" id="addressUpload">
+                                <i class="fas fa-home"></i>
+                                <p>Upload proof of address</p>
+                                <small class="text-muted">Utility bill or bank statement (last 3 months)</small>
+                            </div>
+                            <div id="addressPreview" class="d-none text-center">
+                                <img src="" alt="Address Proof Preview" class="img-thumbnail mb-2" style="max-height: 150px;">
+                                <p class="text-success mb-0"><i class="fas fa-check-circle me-1"></i> Address proof uploaded</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="mb-3">Step 3: Selfie Verification</h6>
+                        <div class="file-upload" id="selfieUpload">
+                            <i class="fas fa-camera"></i>
+                            <p>Upload a selfie with your ID</p>
+                            <small class="text-muted">Make sure your face and ID are clearly visible</small>
+                        </div>
+                        <div id="selfiePreview" class="d-none text-center">
+                            <img src="" alt="Selfie Preview" class="img-thumbnail mb-2" style="max-height: 150px;">
+                            <p class="text-success mb-0"><i class="fas fa-check-circle me-1"></i> Selfie uploaded successfully</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Important:</strong> All documents must be clear, valid, and not expired. Blurry or incomplete documents will be rejected.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-accent" id="submitKyc" disabled>Submit for Verification</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fas fa-sign-out-alt fa-3x text-warning mb-3"></i>
+                    <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning" id="confirmLogout">Yes, Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-dark text-white">
+                Operation completed successfully.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.add('show');
+        });
+        
+        // Close sidebar on mobile
+        document.getElementById('sidebarClose').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('show');
+        });
+        
+        // Close sidebar when clicking on a link (for mobile)
+        document.querySelectorAll('.sidebar .nav-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 769) {
+                    document.querySelector('.sidebar').classList.remove('show');
+                }
+            });
+        });
+        
+        // Profile Modal - Save Changes
+        document.getElementById('saveProfile').addEventListener('click', function() {
+            // In a real application, you would send the form data to the server here
+            const toast = new bootstrap.Toast(document.getElementById('successToast'));
+            document.querySelector('.toast-body').textContent = 'Profile updated successfully!';
+            toast.show();
+            
+            // Close the modal after a short delay
+            setTimeout(() => {
+                bootstrap.Modal.getInstance(document.getElementById('profileModal')).hide();
+            }, 1500);
+        });
+        
+        // Password Modal - Update Password
+        document.getElementById('updatePassword').addEventListener('click', function() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Basic validation
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('Please fill in all password fields');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('New passwords do not match');
+                return;
+            }
+            
+            // In a real application, you would send the password data to the server here
+            const toast = new bootstrap.Toast(document.getElementById('successToast'));
+            document.querySelector('.toast-body').textContent = 'Password updated successfully!';
+            toast.show();
+            
+            // Close the modal after a short delay
+            setTimeout(() => {
+                bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
+                
+                // Clear the form
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            }, 1500);
+        });
+        
+        // KYC Verification - File Upload Simulation
+        let uploadedFiles = {
+            id: false,
+            address: false,
+            selfie: false
+        };
+        
+        // ID Upload
+        document.getElementById('idUpload').addEventListener('click', function() {
+            // In a real application, this would open a file picker
+            // For this demo, we'll simulate a successful upload
+            uploadedFiles.id = true;
+            document.getElementById('idUpload').classList.add('d-none');
+            document.getElementById('idPreview').classList.remove('d-none');
+            checkKycSubmit();
+        });
+        
+        // Address Upload
+        document.getElementById('addressUpload').addEventListener('click', function() {
+            uploadedFiles.address = true;
+            document.getElementById('addressUpload').classList.add('d-none');
+            document.getElementById('addressPreview').classList.remove('d-none');
+            checkKycSubmit();
+        });
+        
+        // Selfie Upload
+        document.getElementById('selfieUpload').addEventListener('click', function() {
+            uploadedFiles.selfie = true;
+            document.getElementById('selfieUpload').classList.add('d-none');
+            document.getElementById('selfiePreview').classList.remove('d-none');
+            checkKycSubmit();
+        });
+        
+        // Check if all KYC files are uploaded to enable submit button
+        function checkKycSubmit() {
+            if (uploadedFiles.id && uploadedFiles.address && uploadedFiles.selfie) {
+                document.getElementById('submitKyc').disabled = false;
+            }
+        }
+        
+        // Submit KYC
+        document.getElementById('submitKyc').addEventListener('click', function() {
+            // In a real application, you would send the KYC data to the server here
+            
+            // Show loading state
+            const btn = document.getElementById('submitKyc');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
+            btn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                document.querySelector('.toast-body').textContent = 'KYC verification submitted successfully! Your documents are under review.';
+                toast.show();
+                
+                // Update KYC status in the card
+                document.querySelector('.kyc-badge').className = 'kyc-badge pending';
+                document.querySelector('.kyc-badge').textContent = 'Pending Verification';
+                
+                // Close the modal after a short delay
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('kycModal')).hide();
+                    
+                    // Reset button
+                    btn.innerHTML = 'Submit for Verification';
+                    btn.disabled = false;
+                }, 1500);
+            }, 2000);
+        });
+        
+        // Logout Confirmation
+        document.getElementById('confirmLogout').addEventListener('click', function() {
+            // In a real application, you would call the logout API here
+            
+            // Show loading state
+            const btn = document.getElementById('confirmLogout');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging out...';
+            btn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Redirect to login page (in a real application)
+                alert('You have been logged out successfully!');
+                
+                // For this demo, we'll just close the modal
+                bootstrap.Modal.getInstance(document.getElementById('logoutModal')).hide();
+                
+                // Reset button
+                btn.innerHTML = 'Yes, Logout';
+                btn.disabled = false;
+            }, 1500);
+        });
+        
+        // Add animation to account cards on load
+        const accountCards = document.querySelectorAll('.account-card');
+        accountCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>

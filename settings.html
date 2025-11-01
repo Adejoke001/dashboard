@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrade Pro - Settings</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f1a34;
+            --primary-light: #1e3a8a;
+            --primary-dark: #0a1123;
+            --secondary: #10b981;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --card-bg: linear-gradient(135deg, #0f1a34 0%, #0a1123 100%);
+            --card-border: 1px solid rgba(255, 255, 255, 0.05);
+            --header-bg: linear-gradient(90deg, #0f1a34 0%, #0a1123 100%);
+            --sidebar-bg: linear-gradient(180deg, #0f1a34 0%, #0a1123 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light Theme Variables */
+        [data-theme="light"] {
+            --primary: #f8fafc;
+            --primary-light: #e2e8f0;
+            --primary-dark: #cbd5e1;
+            --light: #0f1a34;
+            --dark: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #1e293b;
+            --card-bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-border: 1px solid rgba(0, 0, 0, 0.1);
+            --header-bg: linear-gradient(90deg, #f8fafc 0%, #e2e8f0 100%);
+            --sidebar-bg: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            --text-primary: #0f1a34;
+            --text-secondary: rgba(15, 26, 52, 0.7);
+            --text-muted: rgba(15, 26, 52, 0.5);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Fix for muted text visibility */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--sidebar-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border-right: var(--card-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--text-primary);
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section {
+            margin-bottom: 10px;
+        }
+
+        .nav-section-title {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .channels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .channel-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .channel-icon:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+            background-color: var(--primary-dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--header-bg);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: var(--card-border);
+        }
+
+        .header .search-bar {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: var(--text-primary);
+        }
+
+        .header .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Settings Cards */
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 25px;
+            border: var(--card-border);
+            height: 100%;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-card .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-card .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .settings-card .card-icon.general {
+            background-color: var(--accent);
+        }
+
+        .settings-card .card-icon.security {
+            background-color: var(--warning);
+        }
+
+        .settings-card .card-icon.notifications {
+            background-color: var(--info);
+        }
+
+        .settings-card .card-icon.privacy {
+            background-color: var(--success);
+        }
+
+        .settings-card .card-icon.trading {
+            background-color: #8b5cf6;
+        }
+
+        .settings-card .card-icon.appearance {
+            background-color: #f97316;
+        }
+
+        .settings-card h4 {
+            font-weight: 600;
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+
+        .settings-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Form controls - FIXED STYLING */
+        .form-control,
+        .form-select {
+            background-color: var(--primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            box-sizing: border-box;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: var(--primary);
+            border-color: var(--accent);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Style the dropdown options */
+        .form-select option {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        /* Style the dropdown when opened */
+        .form-select:focus option {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .form-label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Toggle Switch */
+        .form-check-input {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--border-color);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .form-check-label {
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-accent:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-outline-accent {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline-accent:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Settings Options */
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-option:last-child {
+            border-bottom: none;
+        }
+
+        .settings-option .option-info {
+            flex: 1;
+        }
+
+        .settings-option .option-info h6 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .settings-option .option-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        /* Theme Options - Always in a row, responsive */
+        .theme-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .theme-option {
+            flex: 1;
+            min-width: 100px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            border-color: var(--accent);
+        }
+
+        .theme-option.active {
+            border-color: var(--accent);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .theme-preview.dark {
+            background: linear-gradient(135deg, #0f1a34 0%, #0a1123 100%);
+        }
+
+        .theme-preview.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .language-option {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-option:hover {
+            border-color: var(--accent);
+        }
+
+        .language-option.active {
+            border-color: var(--accent);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+                padding-left: 10px;
+                padding-right: 10px;
+                overflow-x: hidden;
+            }
+
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 15px;
+                background: var(--header-bg);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1040;
+                border-bottom: var(--card-border);
+            }
+
+            .mobile-header .header-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                padding-top: 8px;
+            }
+
+            .mobile-header .center-items {
+                display: flex;
+                align-items: center;
+                justify-self: center;
+                flex: 1;
+                padding-top: 8px;
+            }
+
+            .mobile-header .toggle-container {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            /* Settings cards - FULL WIDTH on mobile */
+            .settings-card {
+                margin-bottom: 15px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            /* Make the settings card row take full width and center */
+            .settings-cards-container .row {
+                width: 100%;
+                margin: 0;
+                justify-content: center;
+            }
+
+            .settings-cards-container .col-12 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            /* Theme options - always in a row, even on mobile */
+            .theme-options {
+                flex-direction: row;
+            }
+
+            .theme-option {
+                min-width: 90px;
+                padding: 10px;
+            }
+
+            .theme-preview {
+                height: 50px;
+            }
+
+            /* Close button for sidebar on mobile */
+            .sidebar-close {
+                display: block;
+                background: var(--danger);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-size: 16px;
+            }
+
+            /* Remove blue focus outline on mobile devices */
+            .form-control:focus,
+            .form-select:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Also ensure no focus outlines on buttons */
+            button:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-close {
+                display: none;
+            }
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 18px;
+        }
+
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Success Toast */
+        .toast-container {
+            z-index: 1100;
+        }
+
+        .toast-header.bg-success {
+            background-color: var(--success) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="logo">
+                    <h3 class="fw-bold"><i class="fas fa-chart-line"></i> FinTrade Pro</h3>
+                    <button class="sidebar-close" id="sidebarClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <ul class="nav flex-column mt-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="trade.html"><i class="fas fa-exchange-alt"></i> Trading</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html"><i class="fas fa-money-bill-wave"></i>
+                                Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="history.html"><i class="fas fa-history"></i> History</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Account</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="user-account.html"><i class="fas fa-user-circle"></i> User
+                                Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Services Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Services</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="more_services.html"><i class="fas fa-box"></i> More Services</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sidebar Footer with Channels -->
+                <div class="sidebar-footer">
+                    <div class="nav-section-title">Connect to our channels</div>
+                    <div class="channels">
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="channel-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-title">
+                    Settings
+                </div>
+                <div class="center-items">
+                    <div class="user-info d-flex align-items-center move">
+                        <div class="me-3 position-relative">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <button class="toggle-btn" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content ms-sm-auto">
+                <!-- Header -->
+                <div class="header d-flex justify-content-between align-items-center">
+                    <div class="d-none d-md-block">
+                        <h4 class="mb-0">Settings</h4>
+                        <p class="mb-0">Customize your FinTrade Pro experience</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="search-bar me-3 d-none d-md-block">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search settings...">
+                        </div> -->
+                        <div class="user-info d-flex align-items-center">
+                            <div class="me-3 position-relative">
+                                <i class="fas fa-bell"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    2
+                                </span>
+                            </div>
+                            <img src="https://ui-avatars.com/api/?name=Trader+John&background=3b82f6&color=fff"
+                                alt="User">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Cards - UPDATED FOR FULL WIDTH ON MOBILE -->
+                <div class="settings-cards-container">
+                    <div class="row justify-content-center">
+                        <!-- General Settings -->
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="settings-card fade-in animate__animated animate__fadeInUp">
+                                <div class="card-header">
+                                    <div class="card-icon general">
+                                        <i class="fas fa-cog"></i>
+                                    </div>
+                                    <h4>General Settings</h4>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Language</h6>
+                                        <p>Select your preferred language</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option selected>English</option>
+                                            <option>Spanish</option>
+                                            <option>French</option>
+                                            <option>German</option>
+                                            <option>Chinese</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Currency</h6>
+                                        <p>Select your default currency</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option selected>USD ($)</option>
+                                            <option>EUR (€)</option>
+                                            <option>GBP (£)</option>
+                                            <option>JPY (¥)</option>
+                                            <option>BTC</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Timezone</h6>
+                                        <p>Set your local timezone</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option selected>UTC-5 (New York)</option>
+                                            <option>UTC-8 (Los Angeles)</option>
+                                            <option>UTC+0 (London)</option>
+                                            <option>UTC+1 (Paris)</option>
+                                            <option>UTC+8 (Singapore)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Auto Logout</h6>
+                                        <p>Automatically log out after inactivity</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option>15 minutes</option>
+                                            <option>30 minutes</option>
+                                            <option selected>1 hour</option>
+                                            <option>4 hours</option>
+                                            <option>Never</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="settings-card fade-in animate__animated animate__fadeInUp"
+                                style="animation-delay: 0.1s;">
+                                <div class="card-header">
+                                    <div class="card-icon security">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h4>Security Settings</h4>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Two-Factor Authentication</h6>
+                                        <p>Add an extra layer of security to your account</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="twoFactorToggle">
+                                            <label class="form-check-label" for="twoFactorToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Login Notifications</h6>
+                                        <p>Get notified of new sign-ins</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                id="loginNotificationsToggle" checked>
+                                            <label class="form-check-label" for="loginNotificationsToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Session Management</h6>
+                                        <p>View and manage active sessions</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <button class="btn btn-outline-accent btn-sm">Manage Sessions</button>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>API Keys</h6>
+                                        <p>Manage your API access keys</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <button class="btn btn-outline-accent btn-sm">Manage API Keys</button>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-accent w-100" id="saveSecuritySettings">Save Security
+                                        Settings</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="settings-card fade-in animate__animated animate__fadeInUp"
+                                style="animation-delay: 0.2s;">
+                                <div class="card-header">
+                                    <div class="card-icon notifications">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <h4>Notification Settings</h4>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Email Notifications</h6>
+                                        <p>Receive notifications via email</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                id="emailNotificationsToggle" checked>
+                                            <label class="form-check-label" for="emailNotificationsToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Push Notifications</h6>
+                                        <p>Receive push notifications</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="pushNotificationsToggle"
+                                                checked>
+                                            <label class="form-check-label" for="pushNotificationsToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Trading Alerts</h6>
+                                        <p>Get alerts for trading opportunities</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="tradingAlertsToggle"
+                                                checked>
+                                            <label class="form-check-label" for="tradingAlertsToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Price Alerts</h6>
+                                        <p>Receive price movement alerts</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="priceAlertsToggle">
+                                            <label class="form-check-label" for="priceAlertsToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>News Updates</h6>
+                                        <p>Get financial news and updates</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="newsUpdatesToggle"
+                                                checked>
+                                            <label class="form-check-label" for="newsUpdatesToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Appearance Settings -->
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="settings-card fade-in animate__animated animate__fadeInUp"
+                                style="animation-delay: 0.3s;">
+                                <div class="card-header">
+                                    <div class="card-icon appearance">
+                                        <i class="fas fa-palette"></i>
+                                    </div>
+                                    <h4>Appearance Settings</h4>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Theme</h6>
+                                        <p>Choose your preferred theme</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="theme-options">
+                                            <div class="theme-option active" data-theme="dark">
+                                                <div class="theme-preview dark"></div>
+                                                <span>Dark</span>
+                                            </div>
+                                            <div class="theme-option" data-theme="light">
+                                                <div class="theme-preview light"></div>
+                                                <span>Light</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Current Theme</h6>
+                                        <p id="current-theme-display">Dark Theme</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Chart Style</h6>
+                                        <p>Choose your preferred chart style</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option selected>Candlestick</option>
+                                            <option>Line</option>
+                                            <option>Area</option>
+                                            <option>Bar</option>
+                                            <option>Heikin-Ashi</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Font Size</h6>
+                                        <p>Adjust the text size</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <select class="form-select form-select-sm" style="width: 150px;">
+                                            <option>Small</option>
+                                            <option selected>Medium</option>
+                                            <option>Large</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="settings-option">
+                                    <div class="option-info">
+                                        <h6>Compact Mode</h6>
+                                        <p>Use compact layout for more content</p>
+                                    </div>
+                                    <div class="option-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="compactModeToggle">
+                                            <label class="form-check-label" for="compactModeToggle"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-accent w-100" id="saveAppearanceSettings">Save Appearance
+                                        Settings</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Settings Section -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="settings-card slide-in-left animate__animated animate__fadeInLeft">
+                            <div class="card-header">
+                                <div class="card-icon trading">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>Trading Preferences</h4>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="settings-option">
+                                        <div class="option-info">
+                                            <h6>Default Order Type</h6>
+                                            <p>Set your default order type</p>
+                                        </div>
+                                        <div class="option-control">
+                                            <select class="form-select form-select-sm" style="width: 150px;">
+                                                <option selected>Market</option>
+                                                <option>Limit</option>
+                                                <option>Stop</option>
+                                                <option>Stop Limit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-option">
+                                        <div class="option-info">
+                                            <h6>Default Time in Force</h6>
+                                            <p>Set default order duration</p>
+                                        </div>
+                                        <div class="option-control">
+                                            <select class="form-select form-select-sm" style="width: 150px;">
+                                                <option selected>Good Till Canceled</option>
+                                                <option>Immediate or Cancel</option>
+                                                <option>Fill or Kill</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="settings-option">
+                                        <div class="option-info">
+                                            <h6>Confirm Orders</h6>
+                                            <p>Show confirmation before placing orders</p>
+                                        </div>
+                                        <div class="option-control">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="confirmOrdersToggle"
+                                                    checked>
+                                                <label class="form-check-label" for="confirmOrdersToggle"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-option">
+                                        <div class="option-info">
+                                            <h6>Sound Effects</h6>
+                                            <p>Play sounds for trading actions</p>
+                                        </div>
+                                        <div class="option-control">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="soundEffectsToggle">
+                                                <label class="form-check-label" for="soundEffectsToggle"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button class="btn btn-accent" id="saveTradingSettings">Save Trading
+                                    Preferences</button>
+                                <button class="btn btn-outline-accent ms-2" id="resetTradingSettings">Reset to
+                                    Defaults</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Settings updated successfully.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Theme management functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get current theme from localStorage or default to 'dark'
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+
+            // Apply the current theme
+            applyTheme(currentTheme);
+
+            // Set the active theme option
+            setActiveThemeOption(currentTheme);
+
+            // Theme selection
+            document.querySelectorAll('.theme-option').forEach(function (option) {
+                option.addEventListener('click', function () {
+                    const selectedTheme = this.getAttribute('data-theme');
+
+                    // Remove active class from all options
+                    document.querySelectorAll('.theme-option').forEach(function (opt) {
+                        opt.classList.remove('active');
+                    });
+
+                    // Add active class to selected option
+                    this.classList.add('active');
+
+                    // Apply the selected theme
+                    applyTheme(selectedTheme);
+
+                    // Update current theme display
+                    updateCurrentThemeDisplay(selectedTheme);
+                });
+            });
+
+            // Save Security Settings
+            document.getElementById('saveSecuritySettings').addEventListener('click', function () {
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                document.querySelector('.toast-body').textContent = 'Security settings updated successfully!';
+                toast.show();
+            });
+
+            // Save Appearance Settings
+            document.getElementById('saveAppearanceSettings').addEventListener('click', function () {
+                const activeTheme = document.querySelector('.theme-option.active').getAttribute('data-theme');
+
+                // Save to localStorage
+                localStorage.setItem('theme', activeTheme);
+
+                // Show success message
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                document.querySelector('.toast-body').textContent = `Appearance settings updated! Theme set to ${activeTheme} mode.`;
+                toast.show();
+            });
+
+            // Save Trading Settings
+            document.getElementById('saveTradingSettings').addEventListener('click', function () {
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                document.querySelector('.toast-body').textContent = 'Trading preferences updated successfully!';
+                toast.show();
+            });
+
+            // Reset Trading Settings
+            document.getElementById('resetTradingSettings').addEventListener('click', function () {
+                if (confirm('Are you sure you want to reset all trading preferences to their default values?')) {
+                    const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                    document.querySelector('.toast-body').textContent = 'Trading preferences reset to defaults!';
+                    toast.show();
+                }
+            });
+
+            // Toggle sidebar on mobile
+            document.getElementById('sidebarToggle').addEventListener('click', function () {
+                document.querySelector('.sidebar').classList.add('show');
+            });
+
+            // Close sidebar on mobile
+            document.getElementById('sidebarClose').addEventListener('click', function () {
+                document.querySelector('.sidebar').classList.remove('show');
+            });
+
+            // Close sidebar when clicking on a link (for mobile)
+            document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 769) {
+                        document.querySelector('.sidebar').classList.remove('show');
+                    }
+                });
+            });
+
+            // Function to apply theme
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+
+            // Function to set active theme option
+            function setActiveThemeOption(theme) {
+                document.querySelectorAll('.theme-option').forEach(function (option) {
+                    option.classList.remove('active');
+                    if (option.getAttribute('data-theme') === theme) {
+                        option.classList.add('active');
+                    }
+                });
+
+                updateCurrentThemeDisplay(theme);
+            }
+
+            // Function to update current theme display
+            function updateCurrentThemeDisplay(theme) {
+                const themeNames = {
+                    'dark': 'Dark Theme',
+                    'light': 'Light Theme',
+
+                };
+
+                document.getElementById('current-theme-display').textContent = themeNames[theme];
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get current theme from localStorage
+                let currentTheme = localStorage.getItem('theme') || 'dark';
+
+                // If theme was set to auto, change it to dark
+                if (currentTheme === 'auto') {
+                    currentTheme = 'dark';
+                    localStorage.setItem('theme', 'dark');
+                }
+
+                // Apply the current theme
+                applyTheme(currentTheme);
+
+                // Set the active theme option
+                setActiveThemeOption(currentTheme);
+
+              
+            });
+
+            // Add animation to settings cards on load
+            const settingsCards = document.querySelectorAll('.settings-card');
+            settingsCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+
+</html>

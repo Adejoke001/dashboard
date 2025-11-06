@@ -171,8 +171,8 @@
             object-fit: cover;
         }
 
-        /* Stats Cards */
-        .stat-card {
+        /* Stats Cards - Now Clickable Links */
+        .stat-card-link {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             border-radius: 12px;
             padding: 20px;
@@ -180,14 +180,43 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            text-align: left;
+            color: var(--light);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
         }
 
-        .stat-card:hover {
+        .stat-card-link:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(59, 130, 246, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card-link:hover:before,
+        .stat-card-link:focus:before {
+            opacity: 1;
+        }
+
+        .stat-card-link:hover,
+        .stat-card-link:focus {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            outline: none;
+            text-decoration: none;
+            color: var(--light);
         }
 
-        .stat-card .icon {
+        .stat-card-link .icon {
             width: 50px;
             height: 50px;
             border-radius: 10px;
@@ -197,39 +226,47 @@
             font-size: 24px;
             color: white;
             margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
         }
 
-        .stat-card .icon.blue {
+        .stat-card-link .icon.blue {
             background-color: var(--accent);
         }
 
-        .stat-card .icon.green {
+        .stat-card-link .icon.green {
             background-color: var(--success);
         }
 
-        .stat-card .icon.orange {
+        .stat-card-link .icon.orange {
             background-color: var(--warning);
         }
 
-        .stat-card .icon.purple {
+        .stat-card-link .icon.purple {
             background-color: #8b5cf6;
         }
 
-        .stat-card h3 {
+        .stat-card-link h3 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
         }
 
-        .stat-card p {
+        .stat-card-link p {
             color: var(--gray-light);
             font-size: 14px;
             margin: 0;
+            position: relative;
+            z-index: 1;
         }
 
         .price-change {
             font-weight: 600;
             font-size: 14px;
+            position: relative;
+            z-index: 1;
         }
 
         .price-change.positive {
@@ -388,7 +425,7 @@
             }
 
             /* Stats cards - 2 per row on mobile */
-            .stat-card {
+            .stat-card-link {
                 margin-bottom: 15px;
             }
 
@@ -546,12 +583,6 @@
                 </div>
                 <div class="header-center">
                     <div class="d-flex align-items-center">
-                        <!-- <div class="me-3 position-relative">
-                            <i class="fas fa-bell text-light"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </div> -->
                     </div>
                 </div>
                 <div class="header-right">
@@ -570,10 +601,7 @@
                         <p class="text-light mb-0">Track your investments and referral earnings</p>
                     </div>
                     <div class="d-flex align-items-center">
-                        <!-- <div class="search-bar me-3 d-none d-md-block">
-                            <i class="fas fa-search text-light"></i>
-                            <input type="text" placeholder="Search investments...">
-                        </div> -->
+                        
                         <div class="user-info d-flex align-items-center">
                             <div class="me-3 position-relative">
                                 <i class="fas fa-bell text-light"></i>
@@ -588,23 +616,23 @@
                     </div>
                 </div>
 
-                <!-- Investment Stats Cards - Now 2 per row on small screens -->
+                <!-- Investment Stats Cards - Now Links -->
                 <div class="row">
                     <div class="col-6 col-md-6 col-lg-3">
-                        <div class="stat-card fade-in animate__animated animate__fadeInUp">
+                        <a href="#" class="stat-card-link fade-in animate__animated animate__fadeInUp">
                             <div class="icon blue">
                                 <i class="fas fa-chart-line"></i>
                             </div>
                             <h3>$124,560</h3>
-                            <p>Total Investment</p>
+                            <p>Investment</p>
                             <div class="price-change positive">
                                 <i class="fas fa-arrow-up"></i> +12.5% All Time
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-6 col-md-6 col-lg-3">
-                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
-                            style="animation-delay: 0.1s;">
+                        <a href="#" class="stat-card-link fade-in animate__animated animate__fadeInUp"
+                                style="animation-delay: 0.1s;">
                             <div class="icon green">
                                 <i class="fas fa-wallet"></i>
                             </div>
@@ -613,24 +641,24 @@
                             <div class="price-change positive">
                                 <i class="fas fa-arrow-up"></i> +2.3% This Month
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-6 col-md-6 col-lg-3">
-                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
-                            style="animation-delay: 0.2s;">
+                        <a href="#" class="stat-card-link fade-in animate__animated animate__fadeInUp" 
+                                style="animation-delay: 0.2s;">
                             <div class="icon orange">
                                 <i class="fas fa-user-friends"></i>
                             </div>
                             <h3>$2,340</h3>
-                            <p>Referral Earnings</p>
+                            <p>Referral</p>
                             <div class="price-change positive">
                                 <i class="fas fa-arrow-up"></i> 12 Active Referrals
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-6 col-md-6 col-lg-3">
-                        <div class="stat-card fade-in animate__animated animate__fadeInUp"
-                            style="animation-delay: 0.3s;">
+                        <a href="#" class="stat-card-link fade-in animate__animated animate__fadeInUp" 
+                                style="animation-delay: 0.3s;">
                             <div class="icon purple">
                                 <i class="fas fa-ban"></i>
                             </div>
@@ -639,7 +667,7 @@
                             <div class="price-change negative">
                                 <i class="fas fa-arrow-down"></i> 5 Cancelled Plans
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
